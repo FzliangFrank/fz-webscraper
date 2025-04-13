@@ -65,8 +65,22 @@ class SpareRoomScraper(BaseScraper):
         """
         Extract deposit information from SpareRoom.
         """
-        d = soup.find('dt', string=lambda x: x and 'deposit' in x.lower()).parent.find('dd').text
-        return d
+        try:
+            dt = soup.find('dt', string=lambda x: x and 'deposit' in x.lower())
+            if dt:
+                dd = dt.parent.find('dd').text
+                return dd
+            else:
+                soup.find('br').decompose()
+                soup_cp = BeautifulSoup(str(soup), features="html.parser")
+                dt = soup_cp.find('dt', string=lambda x: x and 'deposit' in x.lower())
+                if dt:
+                    dd = dt.parent.find('dd').text
+                    return dd
+                else:
+                    return None
+        except:
+            return None
     
     @staticmethod
     def _extract_address(soup: BeautifulSoup) -> Optional[str]:
@@ -74,8 +88,9 @@ class SpareRoomScraper(BaseScraper):
         Extract address information from SpareRoom.
         """
         keyfeature_list = keyfeature_list = soup.find('ul', {'class': 'key-features'}).find_all('li')
-        address1 = [ p.text.strip() for p in keyfeature_list][1].strip()
-        address3 = [ p.text.strip() for p in keyfeature_list][3].strip()
+        feature_list = [ p.text.strip() for p in keyfeature_list]
+        address1 = feature_list[1].strip() if len(feature_list) > 1 else '?'
+        address3 = feature_list[3].strip() if len(feature_list) > 3 else '?'
         full_address = re.sub(r'\s+', ' ', address3 + ', ' + address1)
         return full_address
 

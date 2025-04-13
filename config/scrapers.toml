@@ -1,0 +1,28 @@
+# Web scraper configurations for different websites
+# Defines selectors and patterns for data extraction
+
+
+[rightmove]
+type = "property_listing"
+[rightmove.extractors]
+price = { type = "pattern", pattern = "£[\\d,]+(?:\\s*pcm)?", tag = "span" }
+address = { type = "css", selector = 'h2[id="mapTitleScrollAnchor"]' }
+description = { type = "*" }
+bedrooms = { type = "*" }
+property_type = { type = "css", selector = ".property-type" }
+agent = { type = "css", selector = ".agent-name" }
+deposit = { type = "*" }
+images = { type = "*" }
+
+[spareroom]
+type = "property_listing"
+[spareroom.extractors]
+price = { type = "pattern", tag = "dt", pattern = "£[\\d,]+(?:\\s*pcm)?" }
+address = { type = "*" }
+# property_type = { type = "*" }
+bedrooms = { type = "*" }
+description = { type = "css", selector = ".detaildesc" }
+availability = { type = "pattern", tag = "div", pattern = "Available", extract = "Available\\s*(.*)" }
+deposit = { type = "*" }
+bills_included = { type = "pattern", tag = "span", pattern = "Bills inc", extract = "Bills\\s+inc(?:luded)?" } 
+images = { type = "*" }

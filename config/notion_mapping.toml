@@ -1,0 +1,38 @@
+# Notion Database Field Mappings
+# Maps scraped data fields to Notion database column names
+
+[rightmove]
+# Field mappings for Rightmove listings
+price_value = "Price (pcm)"
+address = "Address"
+description = "Description"
+bedrooms = "Bed"
+title = "Name"
+url = "URL"  # Original listing URL
+images = "_images"  # Special field for handling images in the page body
+
+[spareroom]
+# Field mappings for SpareRoom listings
+price_value = "Price (pcm)"
+address = "Address"
+description = "Description"
+bedrooms = "Bed"
+title = "Name"
+url = "URL"
+property_type = "Property Type"
+availability = "Available From"
+bills_included = "Bills Included"
+images = "_images"
+
+
+[field_types]
+# Specify the Notion field types for special handling
+# Supported types: number, text, title, checkbox, date, image, url
+bedrooms = "number"
+price_value = "number"
+salary = "number"
+title = "title"
+job_title = "title"
+url = "url"  # URL type for web links
+bills_included = "checkbox"  # For SpareRoom bills included field
+images = "image"  # Special type for handling images 
